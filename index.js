@@ -1,17 +1,27 @@
 const express = require("express")
+require("dotenv").config();
 const app = express()
 const mongoose = require("mongoose")
-mongoose.connect("mongodb://127.0.0.1:27017/library")
+mongoose.connect(process.env.DB_URI)
 .then(()=>{console.log("connect DB")})
 .catch((err)=>console.log(err))
 
 const bookroute= require("./routes/book.route")
+const authRoutes = require("./routes/auth.route");
 const {errhandler} = require("./middlewares/errhandler.middleware")
 
 app.use(express.json())
 app.use("/books",bookroute)
+app.use("/auth", authRoutes);
 app.use(errhandler)
 
-app.listen(5000,"127.0.0.1",()=>{
-    console.log("server listen")
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT,()=>{
+console.log(`Server running on ${PORT}`)
 })
+
+
+//
+
+
