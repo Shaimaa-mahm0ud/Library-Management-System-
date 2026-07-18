@@ -8,11 +8,13 @@ mongoose.connect(process.env.DB_URI)
 
 const bookroute= require("./routes/book.route")
 const authRoutes = require("./routes/auth.route");
+const borrowingRoutes = require("./routes/borrowing.route");
 const {errhandler} = require("./middlewares/errhandler.middleware")
 
 app.use(express.json())
 app.use("/books",bookroute)
 app.use("/auth", authRoutes);
+app.use("/borrowings", borrowingRoutes);
 app.use(errhandler)
 
 const PORT = process.env.PORT || 5000;
