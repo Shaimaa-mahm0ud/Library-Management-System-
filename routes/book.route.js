@@ -10,6 +10,6 @@ router.get("/getbyid/:id",bookcontroller.getbyid)
 router.get("/search",bookcontroller.searchbook)
 router.put("/update/:id",authMiddleware,adminMiddleware,bookcontroller.updatebook)
 router.delete("/delete/:id",authMiddleware,adminMiddleware,bookcontroller.deletebook)
-
+router.patch("/partupdate/:id",authMiddleware,adminMiddleware,bookcontroller.partialupdate)
 
 module.exports = router

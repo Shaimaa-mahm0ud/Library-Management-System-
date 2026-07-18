@@ -75,6 +75,21 @@ const updatebook = async(req,res,next)=>{
     }
 }
 
+const partialupdate = async(req,res,next)=>{
+     try{
+    const myid = req.params.id
+    const updates = req.body
+    const updatedbook = await book.findByIdAndUpdate(myid, updates,{new:true})
+    if (!updatedbook) {
+            return res.status(404).json({ msg: "Book not found" });
+    }
+    res.status(200).json({msg:"book updated"},updatedbook)
+    }catch(err){
+     next(err)
+    }
+}
+
+
 const searchbook = async(req,res,next)=>{
    try{
     const keyword = req.query.keyword
@@ -108,4 +123,4 @@ const searchbook = async(req,res,next)=>{
 
 
 
-module.exports = {createbook,getallbooks,getbyid,searchbook,updatebook,deletebook}
+module.exports = {createbook,getallbooks,getbyid,searchbook,updatebook,deletebook,partialupdate}
