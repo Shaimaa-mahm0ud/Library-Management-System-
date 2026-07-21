@@ -27,8 +27,6 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/index.css",
-              "src/design-system.css",
               "src/styles.css"
             ]
           },

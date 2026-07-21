@@ -1,6 +1,11 @@
 const express = require("express")
 require("dotenv").config();
 const app = express()
+const cors= require('cors')
+app.use(cors({
+  origin: 'http://localhost:4200',
+  credentials: true
+}))
 const mongoose = require("mongoose")
 mongoose.connect(process.env.DB_URI)
 .then(()=>{console.log("connect DB")})

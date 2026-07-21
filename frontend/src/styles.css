@@ -1,1 +1,219 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap';
+@import 'tailwindcss';
+@import './design-system.css'; /* shared color palette + button components — see comments inside */
+
+@custom-variant dark { &:where(.dark, .dark *) }
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Poppins', system-ui, sans-serif;
+  --color-primary: #4f46e5;
+  --color-primary-light: #6366f1;
+  --color-accent: #8b5cf6;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+}
+
+/* ── Keyframe animations ── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-16px) rotate(0.6deg); }
+  66%       { transform: translateY(-9px) rotate(-0.4deg); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes book-open {
+  0%, 100%  { transform: perspective(600px) rotateY(0deg); }
+  30%, 70%  { transform: perspective(600px) rotateY(-30deg); }
+}
+
+@keyframes particle-rise {
+  0%   { transform: translateY(0) translateX(0) scale(1);   opacity: 0; }
+  12%  { opacity: 0.85; }
+  88%  { opacity: 0.25; }
+  100% { transform: translateY(-70vh) translateX(var(--drift, 40px)) scale(0.15); opacity: 0; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 18px rgba(99,102,241,0.35), 0 0 36px rgba(99,102,241,0.12); }
+  50%       { box-shadow: 0 0 36px rgba(99,102,241,0.65), 0 0 72px rgba(99,102,241,0.25); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(-100%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ripple-out {
+  0%   { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes loading-bar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Animation utilities ── */
+
+.animate-float         { animation: float 4.5s ease-in-out infinite; }
+.animate-float-slow    { animation: float-slow 6s ease-in-out infinite; }
+.animate-float-delayed { animation: float 4.5s ease-in-out 2s infinite; }
+.animate-book-open     { animation: book-open 5s ease-in-out infinite; }
+.animate-glow-pulse    { animation: glow-pulse 2.8s ease-in-out infinite; }
+.animate-fade-in       { animation: fade-in 0.4s ease-out both; }
+.animate-fade-in-up    { animation: fade-in-up 0.5s ease-out both; }
+.animate-fade-in-down  { animation: fade-in-down 0.4s ease-out both; }
+.animate-slide-right   { animation: slide-right 0.32s ease-out both; }
+.animate-slide-left    { animation: slide-left 0.32s ease-out both; }
+.animate-scale-in      { animation: scale-in 0.28s ease-out both; }
+.animate-spin          { animation: spin 0.9s linear infinite; }
+
+/* Staggered delay helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* ── Particle ── */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particle-rise var(--p-dur, 4.5s) ease-out var(--p-del, 0s) infinite;
+}
+
+/* ── Skeleton shimmer ── */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 500px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 8px;
+}
+.dark .skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 500px 100%;
+}
+
+/* ── Glass morphism ── */
+.glass {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar               { width: 5px; height: 5px; }
+::-webkit-scrollbar-track         { background: transparent; }
+::-webkit-scrollbar-thumb         { background: rgba(99,102,241,0.28); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover   { background: rgba(99,102,241,0.48); }
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
+
+/* ── Ripple button ── */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.18);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.btn-ripple:active::after { opacity: 1; }
+
+/* ── Page transition ── */
+.page-in { animation: fade-in-up 0.45s ease-out both; }
+
+/* ── Card hover lift ── */
+.card-hover {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(79,70,229,0.18);
+}
+
+/* ── Input focus ring ── */
+.input-field {
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-field:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+}
+
+/* Dark mode */
+body.dark-theme,
+html.dark,
+html.dark body {
+  background-color: #0f172a !important;
+  transition: background-color 0.3s ease;
+}
