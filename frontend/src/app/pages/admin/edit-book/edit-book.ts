@@ -68,7 +68,7 @@ export class EditBook implements OnInit {
     this.bookService.updateBook(this.bookId, updatedBook).subscribe({
       next: () => {
         alert("Book Updated Successfully");
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/admin/books']);
       },
       error: (err) => {
         console.error(err);
@@ -78,7 +78,7 @@ export class EditBook implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/admin/books']);
   }
 
 }

@@ -17,7 +17,7 @@
 
       <thead>
         <tr>
-          <th>Title</th>
+          <th>Book</th>
           <th>Author</th>
           <th>Price</th>
           <th>Category</th>
@@ -29,45 +29,37 @@
       </thead>
 
       <tbody>
-
         <tr *ngFor="let book of mybooks">
-
-          <td>{{book.title}}</td>
-
-          <td>{{book.author}}</td>
-
-          <td>{{book.price}} EGP</td>
-
-          <td>{{book.category}}</td>
-
-          <td>{{book.totalCopies}}</td>
-
-          <td>{{book.availableCopies}}</td>
-
-          <td>{{book.rating}}</td>
-
           <td>
-
+            <div class="book-info">
+              <img
+                [src]="book.image"
+                [alt]="book.title"
+                class="book-img rounded-circle"
+                (error)="book.image='assets/images/book-placeholder.png'">
+              <span>{{ book.title }}</span>
+            </div>
+          </td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.price }} EGP</td>
+          <td>{{ book.category }}</td>
+          <td>{{ book.totalCopies }}</td>
+          <td>{{ book.availableCopies }}</td>
+          <td>{{ book.rating }}</td>
+          <td>
             <button
               class="btn btn-outline"
               (click)="edit(book._id!)">
               Edit
             </button>
-
             <button
               class="btn btn-danger"
               (click)="delete(book._id!)">
               Delete
             </button>
-
           </td>
-
         </tr>
-
       </tbody>
-
     </table>
-
   </div>
-
 </div>

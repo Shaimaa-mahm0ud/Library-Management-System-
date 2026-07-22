@@ -1,0 +1,151 @@
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card">
+
+                <h5>Total Books</h5>
+
+                <h2>{{totalBooks}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card">
+
+                <h5>Available Books</h5>
+
+                <h2>{{availableBooks}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card">
+
+                <h5>Featured Books</h5>
+
+                <h2>{{featuredBooks}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card dashboard-card">
+
+                <h5>Categories</h5>
+
+                <h2>{{categories}}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card mt-5 shadow-sm" style="margin: 50px;">
+  <div class="card-header">
+    <h5 class="mb-0">Recent Books</h5>
+  </div>
+
+  <div class="card-body p-0">
+
+    <table class="table mb-0 align-middle">
+
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>Author</th>
+          <th>Category</th>
+          <th>Available</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let book of recentBooks">
+
+          <td>
+            <div class="d-flex align-items-center">
+
+              <img
+                [src]="book.image"
+                class="rounded-circle me-3"
+                width="45"
+                height="45">
+
+              {{book.title}}
+
+            </div>
+          </td>
+
+          <td>{{book.author}}</td>
+
+          <td>{{book.category}}</td>
+
+          <td>
+
+            <span
+              class="badge"
+              [class.bg-success]="book.availableCopies>0"
+              [class.bg-danger]="book.availableCopies==0">
+
+              {{book.availableCopies}}
+
+            </span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+</div>
+
+<div class="card mt-4 shadow-sm" style="margin: 50px;">
+
+    <div class="card-header">
+        <h5>Low Stock Books</h5>
+    </div>
+
+    <div class="card-body">
+
+        <div
+            *ngFor="let book of lowStockBooks"
+            class="d-flex justify-content-between py-2 border-bottom">
+            <div>
+              <img
+                  [src]="book.image"
+                  class="rounded-circle me-3"
+                  width="45"
+                  height="45">
+                  {{book.title}}
+            </div>
+
+            <span class="badge bg-danger" style="margin-right: 130px;">
+                {{book.availableCopies}} left
+            </span>
+
+        </div>
+
+    </div>
+
+</div>

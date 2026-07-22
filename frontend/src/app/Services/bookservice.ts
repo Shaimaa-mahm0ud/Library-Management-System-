@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IBook } from '../models/ibook';
 
+export interface BooksResponse {
+  books: IBook[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +16,8 @@ export class Bookservice {
 
   constructor(private http: HttpClient) {}
 
-  getAllBooks(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`);
+  getAllBooks(): Observable<BooksResponse> {
+    return this.http.get<BooksResponse>(this.apiUrl);
   }
 
   getBookById(id: string): Observable<IBook> {
@@ -21,7 +25,7 @@ export class Bookservice {
   }
 
   addBook(book: IBook): Observable<IBook> {
-    return this.http.post<IBook>(`${this.apiUrl}`, book);
+    return this.http.post<IBook>(this.apiUrl, book);
   }
 
   updateBook(id: string, book: IBook): Observable<IBook> {

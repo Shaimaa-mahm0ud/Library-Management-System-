@@ -37,7 +37,7 @@ export class AddBook {
     this.bookService.addBook(this.bookForm.value).subscribe({
       next: ()=>{
         alert("Book Added Successfully")
-        this.router.navigate(['/admin'])
+        this.router.navigate(['/admin/books'])
       },
       error: (err)=>{
         alert("failed to add book")
@@ -48,7 +48,7 @@ export class AddBook {
   }
 
   cancel() {
-    this.router.navigate(['/admin']);
+    this.router.navigate(['/admin/books']);
   }
 
 }

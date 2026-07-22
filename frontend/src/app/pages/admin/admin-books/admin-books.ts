@@ -39,9 +39,9 @@ export class AdminBooks implements OnInit{
     })
   }
   edit(id:string){
-    this.router.navigate(['../edit-book', id])
+    this.router.navigate(['../admin/edit-book', id])
   }
   addBook(){
-    this.router.navigate(['../add-book'])
+    this.router.navigate(['../admin/add-book'])
   }
 }

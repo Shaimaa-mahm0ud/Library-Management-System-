@@ -8,6 +8,7 @@ import { AddBook } from './pages/admin/add-book/add-book';
 import { EditBook } from './pages/admin/edit-book/edit-book';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { Dashboard } from './pages/admin/dashboard/dashboard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,14 +28,18 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    component: Dashboard
+  },
+  {
+    path: 'admin/books',
     component: AdminBooks
   },
   {
-    path: 'add-book',
+    path: 'admin/add-book',
     component: AddBook
   },
   {
-    path: 'edit-book/:id',
+    path: 'admin/edit-book/:id',
     component: EditBook
   }
 ];

@@ -17,6 +17,16 @@
     </div>
 
     <div class="form-group">
+      <label>Description</label>
+      <input class="form-control" formControlName="description">
+    </div>
+
+    <div class="form-group">
+    <label>Image URL</label>
+    <input type="text" class="form-control" formControlName="image">
+  </div>
+
+    <div class="form-group">
       <label>Price</label>
       <input type="number" class="form-control" formControlName="price">
     </div>
@@ -39,6 +49,14 @@
     <div class="form-group">
       <label>Rating</label>
       <input class="form-control" formControlName="rating">
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" formControlName="featured" id="featured">
+
+      <label class="form-check-label" for="featured">
+        Featured Book
+      </label>
     </div>
 
     <div class="buttons">

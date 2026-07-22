@@ -14,6 +14,7 @@ import { ProfileComponent } from './pages/profile/profile';
 import { AddBook } from './pages/admin/add-book/add-book';
 import { EditBook } from './pages/admin/edit-book/edit-book';
 import { AdminBooks } from './pages/admin/admin-books/admin-books';
+import { Dashboard } from './pages/admin/dashboard/dashboard';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AdminBooks } from './pages/admin/admin-books/admin-books';
     AddBook,
     EditBook,
     AdminBooks,
+    Dashboard,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [provideBrowserGlobalErrorListeners()],
