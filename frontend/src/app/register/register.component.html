@@ -1,0 +1,65 @@
+<div class="page" [class.dark-mode]="isDarkMode">
+    <div class="register-card">
+        <div class="top-row">
+            <button type="button" class="back-btn" (click)="goBack()">
+                &#8592; Back
+            </button>
+            <span class="moon-icon" (click)="toggleDarkMode()">
+                {{ isDarkMode ? '☀️' : '🌙' }}
+            </span>
+        </div>
+        <div class="logo-box">👤</div>
+        <h1 class="title">Create account</h1>
+        <p class="subtitle">Join thousands of readers today</p>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" formControlName="fullName" placeholder="Jane Smith" />
+                <p class="error-text"
+                    *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched">
+                    Full name is required.
+                </p>
+            </div>
+            <div class="field">
+                <label for="email">Email address</label>
+                <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+                <p class="error-text" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                    Please enter a valid email address.
+                </p>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="password-row">
+                    <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                        placeholder="********" />
+                    <button type="button" class="show-btn" (click)="togglePassword()">
+                        {{ showPassword ? 'Hide' : 'Show' }}
+                    </button>
+                </div>
+                <p class="hint-text">Minimum 6 characters</p>
+                <p class="error-text"
+                    *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                    Password must be at least 6 characters.
+                </p>
+            </div>
+            <div class="field">
+                <label for="confirmPassword">Confirm password</label>
+                <div class="password-row">
+                    <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
+                        formControlName="confirmPassword" placeholder="********" />
+                    <button type="button" class="show-btn" (click)="toggleConfirmPassword()">
+                        {{ showConfirmPassword ? 'Hide' : 'Show' }}
+                    </button>
+                </div>
+                <p class="error-text" *ngIf="passwordsDoNotMatch()">
+                    Passwords do not match.
+                </p>
+            </div>
+            <p class="server-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+            
+            <button type="submit" class="btn-primary" [disabled]="isLoading">
+                {{ isLoading ? 'Creating account...' : 'Create account' }}
+            </button>
+        </form>
+    </div>
+</div>
