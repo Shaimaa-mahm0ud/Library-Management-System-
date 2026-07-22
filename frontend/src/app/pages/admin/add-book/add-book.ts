@@ -31,7 +31,6 @@ export class AddBook {
     }
 
   save() {
-
     if (this.bookForm.invalid) return;
 
     this.bookService.addBook(this.bookForm.value).subscribe({
@@ -41,10 +40,9 @@ export class AddBook {
       },
       error: (err)=>{
         alert("failed to add book")
+        console.error(err);
       }
     })
-
-
   }
 
   cancel() {

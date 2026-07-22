@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IBook } from '../models/ibook';
 
@@ -25,15 +25,21 @@ export class Bookservice {
   }
 
   addBook(book: IBook): Observable<IBook> {
-    return this.http.post<IBook>(this.apiUrl, book);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<IBook>(this.apiUrl, book, { headers });
   }
 
   updateBook(id: string, book: IBook): Observable<IBook> {
-    return this.http.put<IBook>(`${this.apiUrl}/${id}`, book);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<IBook>(`${this.apiUrl}/${id}`, book, { headers });
   }
 
   deleteBook(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
 
   searchBook(keyword: string): Observable<IBook[]> {
