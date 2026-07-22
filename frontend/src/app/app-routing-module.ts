@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { MyBooks } from './pages/my-books/my-books';
 import { ProfileComponent } from './pages/profile/profile';
+import { AdminBooks } from './pages/admin/admin-books/admin-books';
+import { AddBook } from './pages/admin/add-book/add-book';
+import { EditBook } from './pages/admin/edit-book/edit-book';
 
 const routes: Routes = [
   {
@@ -17,6 +20,18 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'admin',
+    component: AdminBooks
+  },
+  {
+    path: 'add-book',
+    component: AddBook
+  },
+  {
+    path: 'edit-book/:id',
+    component: EditBook
   }
 ];
 

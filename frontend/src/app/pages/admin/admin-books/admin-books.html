@@ -1,0 +1,75 @@
+<div class="container py-5">
+
+  <div class="page-header">
+    <div>
+      <h2>📚 Books Management</h2>
+      <p>Manage all library books</p>
+    </div>
+
+    <button class="btn add-btn" (click)="addBook()">
+      + Add Book
+    </button>
+  </div>
+
+  <div class="table-card">
+
+    <table class="table align-middle mb-0">
+
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th width="220">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let book of mybooks">
+
+          <td>{{book.title}}</td>
+
+          <td>{{book.author}}</td>
+
+          <td>{{book.price}} EGP</td>
+
+          <td>{{book.category}}</td>
+
+          <td>
+            <span
+              [class.available]="book.available"
+              [class.notAvailable]="!book.available">
+
+              {{book.available ? 'Available' : 'Not Available'}}
+
+            </span>
+          </td>
+
+          <td>
+
+            <button
+              class="btn btn-outline"
+              (click)="edit(book._id!)">
+              Edit
+            </button>
+
+            <button
+              class="btn btn-danger"
+              (click)="delete(book._id!)">
+              Delete
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

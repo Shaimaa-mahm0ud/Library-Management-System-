@@ -1,0 +1,55 @@
+<div class="book-card">
+
+  <div class="header">
+    <h2>Add Book</h2>
+  </div>
+
+  <form [formGroup]="bookForm" (ngSubmit)="save()">
+
+    <div class="form-group">
+      <label>Title</label>
+      <input class="form-control" formControlName="title">
+    </div>
+
+    <div class="form-group">
+      <label>Author</label>
+      <input class="form-control" formControlName="author">
+    </div>
+
+    <div class="form-group">
+      <label>Price</label>
+      <input type="number" class="form-control" formControlName="price">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <input class="form-control" formControlName="category">
+    </div>
+
+    <div class="form-check mb-4">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="available">
+
+      <label class="form-check-label">
+        Available
+      </label>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+
+</div>

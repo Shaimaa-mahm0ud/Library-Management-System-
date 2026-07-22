@@ -1,0 +1,63 @@
+.book-card{
+    max-width:700px;
+    margin:60px auto;
+    background:var(--color-surface);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.header{
+    background:var(--color-primary);
+    color:white;
+    text-align:center;
+    padding:22px;
+}
+
+.header h2{
+    margin:0;
+    font-weight:700;
+}
+
+form{
+    padding:35px;
+}
+
+.form-group{
+    display:flex;
+    align-items:center;
+    margin-bottom:22px;
+    gap:20px;
+}
+
+.form-group label{
+    width:120px;
+    margin:0;
+    font-weight:600;
+    color:var(--color-text);
+}
+
+.form-control{
+    flex:1;
+    height:48px;
+    border-radius:12px;
+    border:1px solid var(--color-border);
+}
+
+.form-control:focus{
+    border-color:var(--color-primary);
+    box-shadow:0 0 0 .2rem rgba(79,70,229,.15);
+}
+
+.form-check{
+    margin:25px 0;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+}
+
+.buttons .btn{
+    flex:1;
+}
