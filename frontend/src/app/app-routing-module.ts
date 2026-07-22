@@ -41,7 +41,10 @@ export const routes: Routes = [
   {
     path: 'admin/edit-book/:id',
     component: EditBook
-  }
+  },
+
+  { path: '**',
+    redirectTo: ''},
 ];
 
 @NgModule({

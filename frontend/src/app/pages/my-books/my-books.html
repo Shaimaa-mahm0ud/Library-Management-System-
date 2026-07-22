@@ -1,5 +1,20 @@
-<div class="container py-5">
+<!-- <h1>loading = {{ loading }}</h1> -->
+@if (loading) {
 
+  <div class="text-center py-5">
+
+    <div class="spinner-border text-primary"
+         style="width:3rem;height:3rem">
+    </div>
+
+    <h5 class="mt-4">Loading your books...</h5>
+
+  </div>
+
+}
+
+@if (!loading) {
+  <div class="container py-5">
   <!-- Header -->
   <div class="mb-5">
     <h1 class="fw-bold display-6 mb-2">My Books</h1>
@@ -57,31 +72,7 @@
 
   </div>
 
-  @if(books.length === 0){
-
-  <!-- Empty State -->
-
-  <div class="text-center py-5">
-
-    <div class="display-1 mb-3">
-      📚
-    </div>
-
-    <h3>No books borrowed yet</h3>
-
-    <p class="text-secondary">
-      Browse our collection and borrow your first book.
-    </p>
-
-    <button class="btn btn-primary">
-      Browse Books
-    </button>
-
-  </div>
-
-  }
-
-  @else {
+@if (books.length > 0) {
 
   <!-- Desktop Table -->
 
@@ -92,19 +83,12 @@
       <thead>
 
         <tr>
-
           <th>Book</th>
-
           <th>Borrowed On</th>
-
           <th>Due Date</th>
-
           <th>Return Date</th>
-
           <th>Status</th>
-
           <th>Action</th>
-
         </tr>
 
       </thead>
@@ -128,15 +112,11 @@
               <div>
 
                 <div class="fw-semibold">
-
                   {{book.title}}
-
                 </div>
 
                 <small class="text-secondary">
-
                   {{book.author}}
-
                 </small>
 
               </div>
@@ -145,53 +125,31 @@
 
           </td>
 
-          <td>
+          <td>{{formatDate(book.borrowDate)}}</td>
 
-            {{formatDate(book.borrowDate)}}
+          <td>{{formatDate(book.dueDate)}}</td>
 
-          </td>
-
-          <td>
-
-            {{formatDate(book.dueDate)}}
-
-          </td>
-
-          <td>
-
-            {{formatDate(book.returnDate)}}
-
-          </td>
+          <td>{{formatDate(book.returnDate)}}</td>
 
           <td>
 
             @if(book.status=="borrowed"){
 
-            <span class="badge text-bg-primary">
+              <span class="badge text-bg-primary">
+                Borrowed
+              </span>
 
-              Borrowed
+            } @else if(book.status=="late"){
 
-            </span>
+              <span class="badge text-bg-danger">
+                Overdue
+              </span>
 
-            }
+            } @else{
 
-            @else if(book.status=="late"){
-
-            <span class="badge text-bg-danger">
-
-              Overdue
-
-            </span>
-
-            }
-
-            @else{
-
-            <span class="badge text-bg-success">
-
-              Returned
-
-            </span>
+              <span class="badge text-bg-success">
+                Returned
+              </span>
 
             }
 
@@ -201,15 +159,11 @@
 
             @if(book.status!="returned"){
 
-            <button
-
-            class="btn btn-primary btn-sm"
-
-            (click)="returnBook(book.id)">
-
-              Return
-
-            </button>
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="returnBook(book.id)">
+                Return
+              </button>
 
             }
 
@@ -231,117 +185,113 @@
 
     @for(book of books; track book.id){
 
-    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 mb-4">
 
-      <div class="card-body">
+        <div class="card-body">
 
-        <div class="d-flex">
+          <div class="d-flex">
 
-          <img
+            <img
+              [src]="book.cover"
+              width="80"
+              height="110"
+              class="rounded-3 me-3 object-fit-cover">
 
-          [src]="book.cover"
-width="80"
+            <div class="flex-grow-1">
 
-          height="110"
+              <h5 class="fw-bold">
+                {{book.title}}
+              </h5>
 
-          class="rounded-3 me-3 object-fit-cover">
+              <div class="text-secondary mb-2">
+                {{book.author}}
+              </div>
 
-          <div class="flex-grow-1">
+              @if(book.status=="borrowed"){
 
-            <h5 class="fw-bold">
+                <span class="badge text-bg-primary">
+                  Borrowed
+                </span>
 
-              {{book.title}}
+              } @else if(book.status=="late"){
 
-            </h5>
+                <span class="badge text-bg-danger">
+                  Overdue
+                </span>
 
-            <div class="text-secondary mb-2">
+              } @else{
 
-              {{book.author}}
+                <span class="badge text-bg-success">
+                  Returned
+                </span>
+
+              }
 
             </div>
 
-            @if(book.status=="borrowed"){
+          </div>
 
-            <span class="badge text-bg-primary">
+          <hr>
 
-              Borrowed
+          <div class="row small">
 
-            </span>
+            <div class="col-6">
+              <strong>Borrowed</strong><br>
+              {{formatDate(book.borrowDate)}}
+            </div>
 
-            }
-
-            @else if(book.status=="late"){
-
-            <span class="badge text-bg-danger">
-
-              Overdue
-
-            </span>
-
-            }
-
-            @else{
-
-            <span class="badge text-bg-success">
-
-              Returned
-
-            </span>
-
-            }
+            <div class="col-6">
+              <strong>Due</strong><br>
+              {{formatDate(book.dueDate)}}
+            </div>
 
           </div>
+
+          @if(book.status!="returned"){
+
+            <button
+              class="btn btn-primary w-100 mt-3"
+              (click)="returnBook(book.id)">
+              Return Book
+            </button>
+
+          }
 
         </div>
-
-        <hr>
-
-        <div class="row small">
-
-          <div class="col-6">
-
-            <strong>Borrowed</strong>
-
-            <br>
-
-            {{formatDate(book.borrowDate)}}
-
-          </div>
-
-          <div class="col-6">
-
-            <strong>Due</strong>
-
-            <br>
-
-            {{formatDate(book.dueDate)}}
-
-          </div>
-
-        </div>
-
-        @if(book.status!="returned"){
-
-        <button
-
-        class="btn btn-primary w-100 mt-3"
-
-        (click)="returnBook(book.id)">
-
-          Return Book
-
-        </button>
-
-        }
 
       </div>
-
-    </div>
 
     }
 
   </div>
 
-  }
+} @else {
+
+  <!-- Empty State -->
+
+  <div class="text-center py-5">
+
+    <div class="display-1 mb-3">
+      📚
+    </div>
+
+    <h3>No books borrowed yet</h3>
+
+    <p class="text-secondary">
+      Browse our collection and borrow your first book.
+    </p>
+
+    <button class="btn btn-primary">
+      Browse Books
+    </button>
+
+  </div>
+
+}
 
 </div>
+
+
+
+
+}

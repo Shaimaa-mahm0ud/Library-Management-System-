@@ -1,4 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ChangeDetectorRef } from '@angular/core';
+
+interface MyBook {
+
+  id: string;
+
+  borrowingId: string;
+
+  title: string;
+
+  author: string;
+
+  cover: string;
+
+  borrowDate: string;
+
+  dueDate: string;
+
+  returnDate: string | null;
+
+  status: string;
+
+} 
 
 @Component({
   selector: 'app-my-books',
@@ -6,41 +30,58 @@ import { Component } from '@angular/core';
   templateUrl: './my-books.html',
   styleUrls: ['./my-books.css'],
 })
-export class MyBooks {
+export class MyBooks implements OnInit {
   darkMode = false;
+  
+  books: MyBook[] = [];
+  loading = true;
+  constructor(private http: HttpClient,private cdr: ChangeDetectorRef) {}
+  ngOnInit(): void {
+  this.loadBooks();
+}
 
-  books = [
-    {
-      id: 1,
-      title: 'Atomic Habits',
-      author: 'James Clear',
-      cover: 'https://covers.openlibrary.org/b/id/10523338-L.jpg',
-      borrowDate: '2026-07-01',
-      dueDate: '2026-07-20',
-      returnDate: null,
-      status: 'borrowed',
+loadBooks() {
+
+  console.time("API");
+
+  this.loading = true;
+
+  const token = localStorage.getItem("token");
+
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  this.http.get<any>(
+    "http://localhost:5000/borrowings/myHistory",
+    { headers }
+  ).subscribe({
+
+    next: (res) => {
+
+      console.timeEnd("API");
+
+      this.books = res.books || [];
+
+      this.loading = false;
+      this.cdr.detectChanges();
+
     },
-    {
-      id: 2,
-      title: 'Clean Code',
-      author: 'Robert C. Martin',
-      cover: 'https://covers.openlibrary.org/b/id/9611996-L.jpg',
-      borrowDate: '2026-06-15',
-      dueDate: '2026-07-01',
-      returnDate: null,
-      status: 'late',
-    },
-    {
-      id: 3,
-      title: 'Deep Work',
-      author: 'Cal Newport',
-      cover: 'https://covers.openlibrary.org/b/id/11153218-L.jpg',
-      borrowDate: '2026-05-10',
-      dueDate: '2026-05-30',
-      returnDate: '2026-05-25',
-      status: 'returned',
-    },
-  ];
+
+    error: (err) => {
+
+      console.timeEnd("API");
+
+      console.log(err);
+
+      this.loading = false;
+
+    }
+
+  });
+
+}
+
 
   get totalBooks() {
     return this.books.length;
@@ -63,12 +104,47 @@ export class MyBooks {
     return new Date(date).toLocaleDateString();
   }
 
-  returnBook(id: number) {
-    const book = this.books.find((x) => x.id === id);
+  returnBook(bookId: string) {
 
-    if (!book) return;
+  const token = localStorage.getItem("token");
 
-    book.status = 'returned';
-    book.returnDate = new Date().toISOString();
-  }
+  const headers = new HttpHeaders({
+
+    Authorization: `Bearer ${token}`
+
+  });
+
+  this.http.post(
+
+    "http://localhost:5000/borrowings/return",
+
+    {
+
+      bookId
+
+    },
+
+    {
+
+      headers
+
+    }
+
+  ).subscribe({
+
+    next: () => {
+
+      this.loadBooks();
+
+    },
+
+    error: (err) => {
+
+      console.log(err);
+
+    }
+
+  });
+
+}
 }
