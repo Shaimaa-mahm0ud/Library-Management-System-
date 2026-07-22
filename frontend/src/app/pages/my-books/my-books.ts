@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface MyBook {
 
@@ -35,9 +36,12 @@ export class MyBooks implements OnInit {
   
   books: MyBook[] = [];
   loading = true;
-  constructor(private http: HttpClient,private cdr: ChangeDetectorRef) {}
+  constructor(private http: HttpClient,private cdr: ChangeDetectorRef, private router: Router) {}
   ngOnInit(): void {
   this.loadBooks();
+}
+browseBooks() {
+  this.router.navigate(['/']);
 }
 
 loadBooks() {
