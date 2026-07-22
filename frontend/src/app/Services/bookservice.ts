@@ -46,4 +46,10 @@ export class Bookservice {
     return this.http.get<IBook[]>(`${this.apiUrl}/search?keyword=${keyword}`);
   }
 
+  borrowBook(bookId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.apiUrl}/borrow/${bookId}`, {}, { headers });
+  }
+
 }

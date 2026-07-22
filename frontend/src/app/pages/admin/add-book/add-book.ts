@@ -10,39 +10,41 @@ import { Bookservice } from '../../../Services/bookservice';
   styleUrl: './add-book.css'
 })
 export class AddBook {
-  bookForm!:FormGroup
+  bookForm!: FormGroup
   constructor(
     private fb: FormBuilder,
     private bookService: Bookservice,
     private router: Router
   ) {
-      this.bookForm = this.fb.group({
-        title: ['', Validators.required],
-        author: ['', Validators.required],
-        category: ['', Validators.required],
-        price: [0],
-        description: [''],
-        image: [''],
-        rating: [0],
-        totalCopies: [1, Validators.required],
-        availableCopies: [1, Validators.required],
-        featured: [false]
-      });
-    }
+    this.bookForm = this.fb.group({
+      title: ['', Validators.required],
+      author: ['', Validators.required],
+      category: ['', Validators.required],
+      price: [0],
+      description: [''],
+      image: [''],
+      rating: [0],
+      totalCopies: [1, Validators.required],
+      availableCopies: [1, Validators.required],
+      featured: [false]
+    });
+  }
 
   save() {
+
     if (this.bookForm.invalid) return;
 
     this.bookService.addBook(this.bookForm.value).subscribe({
-      next: ()=>{
+      next: () => {
         alert("Book Added Successfully")
         this.router.navigate(['/admin/books'])
       },
-      error: (err)=>{
+      error: (err) => {
         alert("failed to add book")
-        console.error(err);
       }
     })
+
+
   }
 
   cancel() {
