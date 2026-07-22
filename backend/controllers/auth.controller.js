@@ -30,18 +30,22 @@ const register = async (req, res, next) => {
             role: userRole
         });
 
-        const userResponse = {
-    _id: newUser._id,
-    name: newUser.name,
-    email: newUser.email,
-    role: newUser.role,
-    createdAt: newUser.createdAt,
-};
+        const token = generateToken(newUser);
 
-res.status(201).json({
-    message: "User created successfully",
-    user: userResponse,
-});
+        const userResponse = {
+            _id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+            role: newUser.role,
+            createdAt: newUser.createdAt,
+        };
+
+        res.status(201).json({
+            message: "User created successfully",
+            token,
+            user: userResponse,
+            success: true
+        });
 
     } catch (err) {
         next(err);
@@ -82,6 +86,7 @@ const login = async (req, res, next) => {
                 email: user.email,
                 role: user.role,
             },
+            success:true
         });
 
     } catch (err) {

@@ -15,6 +15,8 @@ import { AddBook } from './pages/admin/add-book/add-book';
 import { EditBook } from './pages/admin/edit-book/edit-book';
 import { AdminBooks } from './pages/admin/admin-books/admin-books';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { Dashboard } from './pages/admin/dashboard/dashboard';
     EditBook,
     AdminBooks,
     Dashboard,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [provideBrowserGlobalErrorListeners()],

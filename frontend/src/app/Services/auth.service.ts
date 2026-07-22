@@ -12,16 +12,16 @@ const API_URL = 'http://localhost:5000';
 export class AuthService {
     constructor(private http: HttpClient) {}
     login(data: Login): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(API_URL + '/api/auth/login', data);
+        return this.http.post<AuthResponse>(API_URL + '/auth/login', data);
     }
     register(data: Register): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(API_URL + '/api/auth/register', data);
+        return this.http.post<AuthResponse>(API_URL + '/auth/register', data);
     }
     forgotPassword(email: string): Observable<any> {
-        return this.http.post<any>(API_URL + '/api/auth/forgot-password', { email });
+        return this.http.post<any>(API_URL + '/auth/forgot-password', { email });
     }
     resetPassword(token: string, newPassword: string): Observable<any> {
-        return this.http.post<any>(API_URL + '/api/auth/reset-password', { token, newPassword });
+        return this.http.post<any>(API_URL + '/auth/reset-password', { token, newPassword });
     }
     logout(): void {
         localStorage.removeItem('token');
