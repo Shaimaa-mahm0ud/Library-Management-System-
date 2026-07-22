@@ -1,0 +1,65 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:#f3f4f6;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+.main-content{
+
+    min-height:calc(100vh - 150px);
+
+}.dark{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+.dark .navbar{
+
+    background:#1e293b;
+
+    border-color:#334155;
+
+}
+
+.dark .footer{
+
+    background:#1e293b;
+
+}
+
+.dark .hero{
+
+    background:#1e293b;
+
+}
+
+.dark .card{
+
+    background:#1e293b;
+
+}
+
+.dark nav a{
+
+    color:#ddd;
+
+}
+
+.dark .actions button{
+
+    background:#334155;
+
+    color:white;
+
+}

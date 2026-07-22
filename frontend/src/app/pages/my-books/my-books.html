@@ -1,0 +1,347 @@
+<div class="container py-5">
+
+  <!-- Header -->
+  <div class="mb-5">
+    <h1 class="fw-bold display-6 mb-2">My Books</h1>
+    <p class="text-secondary">
+      Track your borrowed books and return history
+    </p>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-4 mb-5">
+
+    <div class="col-6 col-lg-3">
+      <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+        <div class="fs-2 mb-2">📚</div>
+        <h2 class="fw-bold">{{ totalBooks }}</h2>
+        <small class="text-secondary">
+          Total Borrowed
+        </small>
+      </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+        <div class="fs-2 mb-2">📖</div>
+        <h2 class="fw-bold">{{ activeBooks }}</h2>
+        <small class="text-secondary">
+          Active
+        </small>
+      </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+        <div class="fs-2 mb-2">⏰</div>
+        <h2 class="fw-bold text-danger">
+          {{ lateBooks }}
+        </h2>
+        <small class="text-secondary">
+          Overdue
+        </small>
+      </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <div class="card shadow-sm border-0 rounded-4 p-4 h-100">
+        <div class="fs-2 mb-2">✅</div>
+        <h2 class="fw-bold text-success">
+          {{ returnedBooks }}
+        </h2>
+        <small class="text-secondary">
+          Returned
+        </small>
+      </div>
+    </div>
+
+  </div>
+
+  @if(books.length === 0){
+
+  <!-- Empty State -->
+
+  <div class="text-center py-5">
+
+    <div class="display-1 mb-3">
+      📚
+    </div>
+
+    <h3>No books borrowed yet</h3>
+
+    <p class="text-secondary">
+      Browse our collection and borrow your first book.
+    </p>
+
+    <button class="btn btn-primary">
+      Browse Books
+    </button>
+
+  </div>
+
+  }
+
+  @else {
+
+  <!-- Desktop Table -->
+
+  <div class="table-responsive d-none d-md-block">
+
+    <table class="table align-middle">
+
+      <thead>
+
+        <tr>
+
+          <th>Book</th>
+
+          <th>Borrowed On</th>
+
+          <th>Due Date</th>
+
+          <th>Return Date</th>
+
+          <th>Status</th>
+
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(book of books; track book.id){
+
+        <tr>
+
+          <td>
+
+            <div class="d-flex align-items-center">
+
+              <img
+                [src]="book.cover"
+                width="60"
+                height="85"
+                class="rounded-3 me-3 object-fit-cover">
+
+              <div>
+
+                <div class="fw-semibold">
+
+                  {{book.title}}
+
+                </div>
+
+                <small class="text-secondary">
+
+                  {{book.author}}
+
+                </small>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <td>
+
+            {{formatDate(book.borrowDate)}}
+
+          </td>
+
+          <td>
+
+            {{formatDate(book.dueDate)}}
+
+          </td>
+
+          <td>
+
+            {{formatDate(book.returnDate)}}
+
+          </td>
+
+          <td>
+
+            @if(book.status=="borrowed"){
+
+            <span class="badge text-bg-primary">
+
+              Borrowed
+
+            </span>
+
+            }
+
+            @else if(book.status=="late"){
+
+            <span class="badge text-bg-danger">
+
+              Overdue
+
+            </span>
+
+            }
+
+            @else{
+
+            <span class="badge text-bg-success">
+
+              Returned
+
+            </span>
+
+            }
+
+          </td>
+
+          <td>
+
+            @if(book.status!="returned"){
+
+            <button
+
+            class="btn btn-primary btn-sm"
+
+            (click)="returnBook(book.id)">
+
+              Return
+
+            </button>
+
+            }
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <!-- Mobile -->
+
+  <div class="d-md-none">
+
+    @for(book of books; track book.id){
+
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+      <div class="card-body">
+
+        <div class="d-flex">
+
+          <img
+
+          [src]="book.cover"
+width="80"
+
+          height="110"
+
+          class="rounded-3 me-3 object-fit-cover">
+
+          <div class="flex-grow-1">
+
+            <h5 class="fw-bold">
+
+              {{book.title}}
+
+            </h5>
+
+            <div class="text-secondary mb-2">
+
+              {{book.author}}
+
+            </div>
+
+            @if(book.status=="borrowed"){
+
+            <span class="badge text-bg-primary">
+
+              Borrowed
+
+            </span>
+
+            }
+
+            @else if(book.status=="late"){
+
+            <span class="badge text-bg-danger">
+
+              Overdue
+
+            </span>
+
+            }
+
+            @else{
+
+            <span class="badge text-bg-success">
+
+              Returned
+
+            </span>
+
+            }
+
+          </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row small">
+
+          <div class="col-6">
+
+            <strong>Borrowed</strong>
+
+            <br>
+
+            {{formatDate(book.borrowDate)}}
+
+          </div>
+
+          <div class="col-6">
+
+            <strong>Due</strong>
+
+            <br>
+
+            {{formatDate(book.dueDate)}}
+
+          </div>
+
+        </div>
+
+        @if(book.status!="returned"){
+
+        <button
+
+        class="btn btn-primary w-100 mt-3"
+
+        (click)="returnBook(book.id)">
+
+          Return Book
+
+        </button>
+
+        }
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+</div>

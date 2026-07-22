@@ -1,0 +1,269 @@
+/* =====================================
+   My Books Page
+===================================== */
+
+:host {
+  display: block;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* =====================================
+   Container
+===================================== */
+
+.container {
+  max-width: 1200px;
+}
+
+/* =====================================
+   Header
+===================================== */
+
+h1 {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+p {
+  color: #64748b;
+}
+
+/* =====================================
+   Statistics Cards
+===================================== */
+
+.card {
+  border-radius: 22px !important;
+  overflow: hidden;
+  transition: all .3s ease;
+  animation: fadeUp .5s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(79, 70, 229, .15) !important;
+}
+
+.card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.card small {
+  color: #64748b;
+  font-size: .85rem;
+}
+
+.card .fs-2 {
+  font-size: 2rem !important;
+}
+
+/* =====================================
+   Table Card
+===================================== */
+
+.table-responsive {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .06);
+  animation: fadeUp .5s ease;
+}
+
+/* =====================================
+   Table
+===================================== */
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead {
+  background: #f8fafc;
+}
+
+.table thead th {
+  border: none;
+  padding: 20px;
+  color: #64748b;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-weight: 600;
+}
+
+.table tbody td {
+  padding: 20px;
+  vertical-align: middle;
+  border-color: #eef2f7;
+}
+
+.table tbody tr {
+  transition: .3s;
+}
+
+.table tbody tr:hover {
+  background: #eef2ff;
+  transform: scale(1.01);
+}
+
+/* =====================================
+   Book Image
+===================================== */
+
+.table img,
+.card-body img {
+  object-fit: cover;
+  border-radius: 14px;
+  transition: .3s;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.table img:hover,
+.card-body img:hover {
+  transform: scale(1.05);
+}
+
+/* =====================================
+   Book Title
+===================================== */
+
+.fw-semibold,
+h5 {
+  color: #1e293b;
+}
+
+.text-secondary {
+  color: #64748b !important;
+}
+
+/* =====================================
+   Badges
+===================================== */
+
+.badge {
+  padding: 8px 14px;
+  border-radius: 50px;
+  font-size: .75rem;
+  font-weight: 600;
+  transition: .25s;
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+/* =====================================
+   Buttons
+===================================== */
+
+.btn-primary {
+  background: #4f46e5;
+  border: none;
+  border-radius: 14px;
+  transition: .3s;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, .25);
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(79, 70, 229, .35);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+}
+
+/* =====================================
+   Mobile Cards
+===================================== */
+
+.d-md-none .card {
+  transition: .3s;
+}
+
+.d-md-none .card:hover {
+  transform: translateY(-5px);
+}
+
+/* =====================================
+   Empty State
+===================================== */
+
+.display-1 {
+  font-size: 5rem;
+}
+
+.text-center h3 {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.text-center p {
+  color: #64748b;
+}
+
+.text-center .btn {
+  margin-top: 10px;
+}
+
+/* =====================================
+   Animations
+===================================== */
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+/* =====================================
+   Responsive
+===================================== */
+
+@media (max-width:992px) {
+
+  .card h2 {
+    font-size: 1.7rem;
+  }
+
+}
+
+@media (max-width:768px) {
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .table-responsive {
+    border-radius: 20px;
+  }
+
+  .card {
+    border-radius: 18px !important;
+  }
+
+}
+
+@media (max-width:576px) {
+
+  .display-6 {
+    font-size: 2rem;
+  }
+
+  .card h2 {
+    font-size: 1.5rem;
+  }
+
+}
