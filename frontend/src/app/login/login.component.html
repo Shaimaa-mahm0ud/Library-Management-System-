@@ -1,0 +1,79 @@
+<button class="dark-toggle" (click)="toggleDarkMode()">
+    {{ isDarkMode ? '☀️' : '🌙' }}
+</button>
+<div class="page" [class.dark-mode]="isDarkMode">
+    <div class="card-wrapper">
+        <div class="login-card">
+            <div class="logo-row">
+                <div class="logo-box">📖</div>
+                <span class="logo-text">Librarium</span>
+            </div>
+            <h1 class="title">Welcome back</h1>
+            <p class="subtitle">Sign in to your library account</p>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" formControlName="email" placeholder="you@example.com" />
+                    <p class="error-text" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                        Please enter a valid email address.
+                    </p>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="password-row">
+                        <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            placeholder="********" />
+                        <button type="button" class="show-btn" (click)="togglePassword()">
+                            {{ showPassword ? 'Hide' : 'Show' }}
+                        </button>
+                    </div>
+                    <p class="error-text"
+                        *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                        Password must be at least 6 characters.
+                    </p>
+                </div>
+                <div class="options-row">
+                    <label class="remember-me">
+                        <input type="checkbox" formControlName="rememberMe" />
+                        Remember me
+                    </label>
+                    <a href="javascript:void(0)" class="forgot-link">
+                        Forgot password?
+                    </a>
+                </div>
+                <p class="server-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+                <button type="submit" class="btn-primary" [disabled]="isLoading">
+                    {{ isLoading ? 'Signing in...' : 'Sign in' }}
+                </button>
+                <p class="signup-text">
+                    Don't have an account? <a routerLink="/register">Create one</a>
+                </p>
+                <div class="demo-box">
+                    <strong>Demo:</strong> Leave email blank for admin access, or use any email for a regular user.
+                </div>
+            </form>
+        </div>
+        <div class="promo-card">
+            <div class="promo-icon">📚</div>
+            <h2>Your Gateway<br />to Knowledge</h2>
+            <p>
+                Explore thousands of books, manage your reading journey,
+                and discover new worlds — all in one place.
+            </p>
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="stat-number">12,000+</span>
+                    <span class="stat-label">Books</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">3,200+</span>
+                    <span class="stat-label">Members</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4,800+</span>
+                    <span class="stat-label">Authors</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
