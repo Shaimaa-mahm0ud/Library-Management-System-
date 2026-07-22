@@ -1,4 +1,6 @@
 const User = require("../models/user.model");
+const Borrowing = require("../models/borrowing.model");
+const Book = require("../models/book.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const generateToken = require("../utils/generateToken");
@@ -84,14 +86,90 @@ const login = async (req, res, next) => {
 
 const profile = async (req, res, next) => {
     try {
+        const userId = req.user._id
+        const totalBorrowed = await Borrowing.countDocuments({ user: userId });
+        const activeCount = await Borrowing.countDocuments({ 
+            user: userId, 
+            status: "borrowed" 
+        })
+        const returnedCount = await Borrowing.countDocuments({ 
+            user: userId, 
+            status: "returned" 
+        })
+        const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+        
+        const overdueCount = await Borrowing.countDocuments({
+            user: userId,
+            status: "borrowed",
+            borrowedAt: { $lt: fourteenDaysAgo }
+        })
+        const recentBorrowings = await Borrowing.find({ user: userId })
+            .populate("book", "title author coverImage image")
+            .sort({ borrowedAt: -1 })
+            .limit(3);
 
-        res.status(200).json({
-            user: req.user
+        const recentActivity = recentBorrowings.map(item => {
+            const isOverdue = item.status === "borrowed" && item.borrowedAt < fourteenDaysAgo;
+            
+            return {
+                _id: item._id,
+                title: item.book ? item.book.title : "Unknown Book",
+                author: item.book ? item.book.author : "Unknown Author",
+                cover: item.book ? (item.book.coverImage || item.book.image) : "",
+                borrowedAt: item.borrowedAt,
+                status: isOverdue ? "Overdue" : (item.status === "borrowed" ? "Active" : "Returned")
+            };
         });
+        res.status(200).json({
+            user: req.user,
+            stats: {
+                borrowed: totalBorrowed,
+                active: activeCount,
+                returned: returnedCount,
+                overdue: overdueCount
+            },
+            recentActivity
+        })
 
     } catch (err) {
         next(err);
     }
 };
 
-module.exports = { register,login,profile};
+const updateprofile = async(req, res, next) =>{
+    try{
+        const {name , email} = req.body
+        const currentuser = await User.findById(req.user._id)
+        if(!currentuser){
+            return res.status(404).json({msg :"User not found"})
+        }
+        if (email && email !== currentuser.email) {
+            const existinguser = await User.findOne({ email });
+            if (existinguser) {
+                return res.status(400).json({
+                    message: "Email already exists",
+                })
+            }
+        }
+        currentuser.name = name || currentuser.name
+        currentuser.email = email || currentuser.email
+
+        await currentuser.save();
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                _id: currentuser._id,
+                name: currentuser.name,
+                email: currentuser.email,
+                role: currentuser.role,
+            },
+        })
+
+
+    }catch(err){
+       next(err)
+    }
+};
+
+module.exports = { register,login,profile,updateprofile}
