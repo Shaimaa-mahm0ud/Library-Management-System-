@@ -7,7 +7,7 @@ const generateToken = require("../utils/generateToken");
 
 const register = async (req, res, next) => {
     try {
-        const { name, email, passwordوقخمث } = req.body;
+        const { name, email, password,role } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -19,7 +19,7 @@ const register = async (req, res, next) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         let userRole = role || 'user';
-        if (email === 'admin@library.com') {
+        if (email === 'admin@gmail.com') {
             userRole = 'admin';
         }
 
