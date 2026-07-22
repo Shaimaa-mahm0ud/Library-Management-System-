@@ -7,7 +7,7 @@ import { Login } from '../models/login'
 
 @Component({
     selector: 'app-login',
-    standalone: true,
+    standalone: false,
     imports: [CommonModule, ReactiveFormsModule, RouterLink],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css',
@@ -22,6 +22,7 @@ export class LoginComponent {
     isLoading = false
     errorMessage = ''
     isDarkMode = false
+
     constructor(private authService: AuthService, private router: Router) {
         this.isDarkMode = localStorage.getItem('darkMode') === 'true'
     }
@@ -50,7 +51,11 @@ export class LoginComponent {
                 if (response.success) {
                     this.authService.saveToken(response.token)
                     this.authService.saveUser(response.user)
-                    this.router.navigate(['/books'])
+                     if (response.user.role === 'admin') {
+                        this.router.navigate(['/admin']);
+                    } else {
+                        this.router.navigate(['/books']);
+                    }
                 }
             },
             error: (error) => {
