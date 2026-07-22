@@ -1,74 +1,39 @@
-import { Service } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { IBook } from '../models/ibook';
 
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class Bookservice {
-  constructor(){}
 
-  books: IBook[] = [
-    {
-      _id: "1",
-      title: "Clean Code",
-      author: "Robert C. Martin",
-      price: 450,
-      category: "Programming",
-      available: true
-    },
-    {
-      _id: "2",
-      title: "Atomic Habits",
-      author: "James Clear",
-      price: 320,
-      category: "Self Development",
-      available: true
-    },
-    {
-      _id: "3",
-      title: "The Alchemist",
-      author: "Paulo Coelho",
-      price: 250,
-      category: "Novel",
-      available: false
-    },
-    {
-      _id: "4",
-      title: "JavaScript: The Good Parts",
-      author: "Douglas Crockford",
-      price: 390,
-      category: "Programming",
-      available: true
-    },
-    {
-      _id: "5",
-      title: "Deep Work",
-      author: "Cal Newport",
-      price: 300,
-      category: "Productivity",
-      available: false
-    }
-  ];
+  private apiUrl = 'http://localhost:5000/books';
 
-  getAllBooks(): IBook[] {
-    return this.books;
+  constructor(private http: HttpClient) {}
+
+  getAllBooks(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}`);
   }
 
-  getBookById(id: string): IBook | undefined {
-    return this.books.find(book => book._id === id);
+  getBookById(id: string): Observable<IBook> {
+    return this.http.get<IBook>(`${this.apiUrl}/${id}`);
   }
 
-  addBook(book: IBook): void {
-    this.books.push(book);
+  addBook(book: IBook): Observable<IBook> {
+    return this.http.post<IBook>(`${this.apiUrl}`, book);
   }
 
-  updateBook(updatedBook: IBook): void {
-    const index = this.books.findIndex(book => book._id === updatedBook._id);
-
-    if (index !== -1) {
-      this.books[index] = updatedBook;
-    }
+  updateBook(id: string, book: IBook): Observable<IBook> {
+    return this.http.put<IBook>(`${this.apiUrl}/${id}`, book);
   }
 
-  deleteBook(id: string): void {
-    this.books = this.books.filter(book => book._id !== id);
+  deleteBook(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  searchBook(keyword: string): Observable<IBook[]> {
+    return this.http.get<IBook[]>(`${this.apiUrl}/search?keyword=${keyword}`);
+  }
+
 }

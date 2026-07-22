@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bookservice } from '../../../Services/bookservice';
+import { IBook } from '../../../models/ibook';
 
 @Component({
   selector: 'app-edit-book',
@@ -26,9 +27,14 @@ export class EditBook implements OnInit {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
-      price: ['', Validators.required],
-      category: [''],
-      available: [true]
+      category: ['', Validators.required],
+      price: [0],
+      description: [''],
+      image: [''],
+      rating: [0],
+      totalCopies: [1, Validators.required],
+      availableCopies: [1, Validators.required],
+      featured: [false]
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,29 +42,43 @@ export class EditBook implements OnInit {
     if (id) {
       this.bookId = id;
 
-      const book = this.bookService.getBookById(id);
-
-      if (book) {
-        this.bookForm.patchValue(book);
-      }
+      this.bookService.getBookById(id).subscribe({
+        next: (book: IBook) => {
+          this.bookForm.patchValue(book);
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Book not found");
+        }
+      });
     }
   }
 
-  save() {
+  save(): void {
 
-    if (this.bookForm.invalid) return;
+    if (this.bookForm.invalid) {
+      return;
+    }
 
-    const updatedBook = {
+    const updatedBook: IBook = {
       _id: this.bookId,
       ...this.bookForm.value
     };
 
-    this.bookService.updateBook(updatedBook);
+    this.bookService.updateBook(this.bookId, updatedBook).subscribe({
+      next: () => {
+        alert("Book Updated Successfully");
+        this.router.navigate(['/admin']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Failed to update book");
+      }
+    });
+  }
 
-    alert("Book Updated Successfully");
-
+  cancel(): void {
     this.router.navigate(['/admin']);
-
   }
 
 }

@@ -19,9 +19,14 @@ export class AddBook {
       this.bookForm = this.fb.group({
         title: ['', Validators.required],
         author: ['', Validators.required],
-        price: [0, Validators.required],
-        category: [''],
-        available: [true]
+        category: ['', Validators.required],
+        price: [0],
+        description: [''],
+        image: [''],
+        rating: [0],
+        totalCopies: [1, Validators.required],
+        availableCopies: [1, Validators.required],
+        featured: [false]
       });
     }
 
@@ -29,11 +34,17 @@ export class AddBook {
 
     if (this.bookForm.invalid) return;
 
-    this.bookService.addBook(this.bookForm.value as any);
+    this.bookService.addBook(this.bookForm.value).subscribe({
+      next: ()=>{
+        alert("Book Added Successfully")
+        this.router.navigate(['/admin'])
+      },
+      error: (err)=>{
+        alert("failed to add book")
+      }
+    })
 
-    alert("Book Added Successfully");
 
-    this.router.navigate(['/admin']);
   }
 
   cancel() {

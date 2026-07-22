@@ -21,7 +21,9 @@
           <th>Author</th>
           <th>Price</th>
           <th>Category</th>
-          <th>Status</th>
+          <th>Total Copies</th>
+          <th>Available Copies</th>
+          <th>Rating</th>
           <th width="220">Actions</th>
         </tr>
       </thead>
@@ -38,15 +40,11 @@
 
           <td>{{book.category}}</td>
 
-          <td>
-            <span
-              [class.available]="book.available"
-              [class.notAvailable]="!book.available">
+          <td>{{book.totalCopies}}</td>
 
-              {{book.available ? 'Available' : 'Not Available'}}
+          <td>{{book.availableCopies}}</td>
 
-            </span>
-          </td>
+          <td>{{book.rating}}</td>
 
           <td>
 

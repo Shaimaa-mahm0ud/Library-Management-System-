@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IBook } from '../../../models/ibook';
 import { Bookservice } from '../../../Services/bookservice';
 import { Router } from '@angular/router';
@@ -10,16 +10,33 @@ import { Router } from '@angular/router';
   styleUrl: './admin-books.css',
 })
 export class AdminBooks implements OnInit{
-  constructor( private bookservice:Bookservice, private router:Router){}
+  constructor( private bookservice:Bookservice, private router:Router, private cd:ChangeDetectorRef){}
   mybooks:IBook[]=[]
-  ngOnInit(){
-    this.mybooks = this.bookservice.getAllBooks()
+  ngOnInit(): void {
+    this.loadBooks()
+  }
+  loadBooks(){
+    this.bookservice.getAllBooks().subscribe({
+      next: (res)=>{
+        this.mybooks = res.books
+        this.cd.detectChanges()
+      },
+      error: (err)=>{
+        console.log(err)
+      }
+    })
   }
   delete(id:string){
     const ok = confirm("Are you sure you want to delete this book")
     if(!ok) return
-    this.bookservice.deleteBook(id)
-    this.mybooks=this.bookservice.getAllBooks()
+    this.bookservice.deleteBook(id).subscribe({
+      next: ()=>{
+        this.loadBooks()
+      },
+      error: (err)=>{
+        console.log(err)
+      }
+    })
   }
   edit(id:string){
     this.router.navigate(['../edit-book', id])

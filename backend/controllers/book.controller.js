@@ -13,7 +13,6 @@ const createBook = async (req, res, next) => {
             rating,
             totalCopies,
             availableCopies,
-            available,
             featured,
         } = req.body;
 
@@ -27,7 +26,6 @@ const createBook = async (req, res, next) => {
             rating,
             totalCopies,
             availableCopies: availableCopies !== undefined ? availableCopies : (totalCopies || 1),
-            available: available !== undefined ? available : true,
             featured,
         });
 
