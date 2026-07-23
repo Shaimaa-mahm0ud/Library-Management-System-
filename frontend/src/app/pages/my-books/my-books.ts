@@ -41,7 +41,7 @@ export class MyBooks implements OnInit {
   this.loadBooks();
 }
 browseBooks() {
-  this.router.navigate(['/']);
+  this.router.navigate(['/book']);
 }
 
 loadBooks() {

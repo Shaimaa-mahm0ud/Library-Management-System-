@@ -1,123 +1,56 @@
-<header class="navbar">
+<header class="navbar" *ngIf="showNavbar">
 
-    <!-- Logo -->
+  <!-- Logo -->
+  <div class="logo" routerLink="/book">
+    <div class="logo-icon">📚</div>
+    <h2>Librarium</h2>
+  </div>
 
-    <div class="logo" routerLink="/">
+  <!-- Links -->
+  <nav>
+    <a routerLink="/book" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/my-books" routerLinkActive="active">My Books</a>
+    <a *ngIf="userRole === 'admin'" routerLink="/admin/books" routerLinkActive="active">Admin</a>
+    <a routerLink="/profile" routerLinkActive="active">Profile</a>
+  </nav>
 
-        <div class="logo-icon">
-            📚
-        </div>
+  <!-- Mobile Hamburger Menu Button -->
+  <button class="menu-btn" (click)="toggleMenu(); $event.stopPropagation()">☰</button>
 
-        <h2>Librarium</h2>
+  <!-- Right Actions -->
+  <div class="actions">
 
-    </div>
-
-
-    <!-- Links -->
-
-    <nav>
-
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-            Home
-        </a>
-
-        <a routerLink="/my-books" routerLinkActive="active">
-            My Books
-        </a>
-
-        <a href="#">
-            Admin
-        </a>
-
-    </nav>
-
-
-    <!-- Right -->
-     <button class="menu-btn"
-(click)="toggleMenu();$event.stopPropagation()">
-
-☰
-
-</button>
-
-    <div class="actions">
-
-    <button (click)="toggleDarkMode();$event.stopPropagation()">
-
-        {{darkMode ? '☀️':'🌙'}}
-
+    <!-- Dark Mode Toggle -->
+    <button (click)="toggleDarkMode(); $event.stopPropagation()">
+      {{ darkMode ? '☀️' : '🌙' }}
     </button>
 
-    <div class="dropdown">
-
-        <button (click)="toggleNotifications();$event.stopPropagation()">
-
-            🔔
-
-        </button>
-
-        <div class="menu" *ngIf="showNotifications">
-
-            <h4>Notifications</h4>
-
-            <p>📚 Atomic Habits is available</p>
-
-            <p>⏰ Return your book tomorrow</p>
-
-            <p>✨ New books added</p>
-
-        </div>
-
-    </div>
-
+    <!-- Profile Dropdown -->
     <div class="profile dropdown">
-
-        <div class="profile-box"
-
-            (click)="toggleProfile();$event.stopPropagation()">
-
-            <img src="https://i.pravatar.cc/50">
-
-            <span>Shahd</span>
-
+      <div class="profile-box" (click)="toggleProfile(); $event.stopPropagation()">
+        <div class="header-avatar-initial">
+          {{ getInitials(userName) }}
         </div>
+        <span>{{ userName }}</span>
+      </div>
 
-        <div class="menu profile-menu"
-
-            *ngIf="showProfile">
-
-            <p>👤 Profile</p>
-
-            <p>⚙ Settings</p>
-
-            <hr>
-
-            <p class="logout">Logout</p>
-
-        </div>
-
+      <div class="menu profile-menu" *ngIf="showProfile">
+        <p (click)="goToProfile()">👤 Profile</p>
+        <hr>
+        <p class="logout" (click)="logout()">🚪 Logout</p>
+      </div>
     </div>
 
-</div>
+  </div>
 
 </header>
-<div
-class="mobile-menu"
 
-*ngIf="mobileMenu"
-
-(click)="$event.stopPropagation()">
-
-<a routerLink="/">Home</a>
-
-<a routerLink="/my-books">My Books</a>
-
-<a href="#">Admin</a>
-
-<hr>
-
-<a href="#">Profile</a>
-
-<a href="#">Logout</a>
-
+<!-- Mobile Menu Dropdown -->
+<div class="mobile-menu" *ngIf="showNavbar && mobileMenu" (click)="$event.stopPropagation()">
+  <a routerLink="/book" (click)="closeMenus()">Home</a>
+  <a routerLink="/my-books" (click)="closeMenus()">My Books</a>
+  <a *ngIf="userRole === 'admin'" routerLink="/admin" (click)="closeMenus()">Admin</a>
+  <a routerLink="/profile" (click)="closeMenus()">Profile</a>
+  <hr>
+  <a (click)="logout()" class="logout-text">Logout</a>
 </div>

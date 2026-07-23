@@ -69,7 +69,7 @@ export class LoginComponent {
           if (response.user.role === 'admin') {
             this.router.navigate(['/admin']);
           } else {
-            this.router.navigate(['/my-books']);
+            this.router.navigate(['/book']);
           }
 
         } else {

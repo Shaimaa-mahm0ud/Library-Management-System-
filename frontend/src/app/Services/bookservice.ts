@@ -47,9 +47,22 @@ export class Bookservice {
   }
 
   borrowBook(bookId: string): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(`${this.apiUrl}/borrow/${bookId}`, {}, { headers });
-  }
+  const token = localStorage.getItem('token');
+
+  const headers = new HttpHeaders().set(
+    'Authorization',
+    `Bearer ${token}`
+  );
+
+  return this.http.post(
+    'http://localhost:5000/borrowings/borrow',
+    {
+      bookId
+    },
+    {
+      headers
+    }
+  );
+}
 
 }

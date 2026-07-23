@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { Home } from './pages/home/home';
 import { MyBooks } from './pages/my-books/my-books';
 import { ProfileComponent } from './pages/profile/profile';
 import { AdminBooks } from './pages/admin/admin-books/admin-books';
@@ -22,10 +21,10 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   {
-    path: 'home',
-    component: Home,
-    canActivate: [authGuard]
-  },
+  path: 'book',
+  component: BookComponent,
+  canActivate: [authGuard]
+},
   {
     path: 'my-books',
     component: MyBooks,
@@ -56,10 +55,7 @@ export const routes: Routes = [
     component: EditBook,
     canActivate: [adminGuard]
   },
-  {
-    path: 'book',
-    component: BookComponent
-  },
+  
   {
     path: '**',
     redirectTo: ''
