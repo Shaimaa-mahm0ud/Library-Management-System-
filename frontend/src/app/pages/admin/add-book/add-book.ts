@@ -32,23 +32,45 @@ export class AddBook {
 
   save() {
 
-    if (this.bookForm.invalid) return;
-
-    this.bookService.addBook(this.bookForm.value).subscribe({
-      next: () => {
-        alert("Book Added Successfully")
-        this.router.navigate(['/admin/books'])
-      },
-      error: (err) => {
-        alert("failed to add book")
-      }
-    })
-
-
+  if (this.bookForm.invalid) {
+    this.bookForm.markAllAsTouched();
+    return;
   }
+
+  this.bookService.addBook(this.bookForm.value).subscribe({
+    next: () => {
+      alert("Book Added Successfully");
+      this.router.navigate(['/admin/books']);
+    },
+    error: () => {
+      alert("Failed to add book");
+    }
+  });
+
+}
 
   cancel() {
     this.router.navigate(['/admin/books']);
+  }
+
+  get title() {
+  return this.bookForm.get('title')!;
+  }
+
+  get author() {
+    return this.bookForm.get('author')!;
+  }
+
+  get category() {
+    return this.bookForm.get('category')!;
+  }
+
+  get totalCopies() {
+    return this.bookForm.get('totalCopies')!;
+  }
+
+  get availableCopies() {
+    return this.bookForm.get('availableCopies')!;
   }
 
 }

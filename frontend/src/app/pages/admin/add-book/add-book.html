@@ -1,4 +1,5 @@
 <app-admin-navbar></app-admin-navbar>
+
 <div class="book-card">
 
   <div class="header">
@@ -10,11 +11,19 @@
     <div class="form-group">
       <label>Title</label>
       <input class="form-control" formControlName="title">
+
+      <div class="text-danger" *ngIf="title.touched && title.hasError('required')">
+        Title is required.
+      </div>
     </div>
 
     <div class="form-group">
       <label>Author</label>
       <input class="form-control" formControlName="author">
+
+      <div class="text-danger" *ngIf="author.touched && author.hasError('required')">
+        Author is required.
+      </div>
     </div>
 
     <div class="form-group">
@@ -23,9 +32,9 @@
     </div>
 
     <div class="form-group">
-    <label>Image URL</label>
-    <input type="text" class="form-control" formControlName="image">
-  </div>
+      <label>Image URL</label>
+      <input class="form-control" formControlName="image">
+    </div>
 
     <div class="form-group">
       <label>Price</label>
@@ -35,25 +44,41 @@
     <div class="form-group">
       <label>Category</label>
       <input class="form-control" formControlName="category">
+
+      <div class="text-danger" *ngIf="category.touched && category.hasError('required')">
+        Category is required.
+      </div>
     </div>
 
     <div class="form-group">
       <label>Total Copies</label>
-      <input class="form-control" formControlName="totalCopies">
+      <input type="number" class="form-control" formControlName="totalCopies">
+
+      <div class="text-danger" *ngIf="totalCopies.touched && totalCopies.hasError('required')">
+        Total Copies is required.
+      </div>
     </div>
 
     <div class="form-group">
       <label>Available Copies</label>
-      <input class="form-control" formControlName="availableCopies">
+      <input type="number" class="form-control" formControlName="availableCopies">
+
+      <div class="text-danger" *ngIf="availableCopies.touched && availableCopies.hasError('required')">
+        Available Copies is required.
+      </div>
     </div>
 
     <div class="form-group">
       <label>Rating</label>
-      <input class="form-control" formControlName="rating">
+      <input type="number" class="form-control" formControlName="rating">
     </div>
 
     <div class="form-check mb-3">
-      <input class="form-check-input" type="checkbox" formControlName="featured" id="featured">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        formControlName="featured"
+        id="featured">
 
       <label class="form-check-label" for="featured">
         Featured Book
@@ -61,7 +86,10 @@
     </div>
 
     <div class="buttons">
-      <button type="submit" class="btn btn-primary">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="bookForm.invalid">
         Save
       </button>
 
