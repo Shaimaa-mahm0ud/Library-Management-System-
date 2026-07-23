@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = () => {
   if (token) {
     return true;
   }
-
-  router.navigate(['/book']);
+  alert('Please login first')
+  router.navigate(['/login']);
   return false;
 };
