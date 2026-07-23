@@ -1,4 +1,6 @@
 <!-- <h1>loading = {{ loading }}</h1> -->
+<app-admin-navbar *ngIf="isAdmin"></app-admin-navbar>
+
 @if (loading) {
 
   <div class="text-center py-5">

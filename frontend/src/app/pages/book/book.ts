@@ -13,7 +13,7 @@ export class BookComponent implements OnInit {
   filteredBooks: IBook[] = [];
   borrowingMessage: string = '';
   searchKeyword: string = '';
-
+  isAdmin=false
   selectedCategory: string = '';
   categories: string[] = [];
   availabilityFilter: string = '';
@@ -25,6 +25,8 @@ export class BookComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || 'null')
+    this.isAdmin = user?.role === 'admin'
     this.bookService.getAllBooks().subscribe({
       next: (response) => {
         this.books = [...response.books];

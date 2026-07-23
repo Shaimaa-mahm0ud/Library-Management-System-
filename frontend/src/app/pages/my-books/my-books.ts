@@ -23,7 +23,7 @@ interface MyBook {
 
   status: string;
 
-} 
+}
 
 @Component({
   selector: 'app-my-books',
@@ -33,12 +33,14 @@ interface MyBook {
 })
 export class MyBooks implements OnInit {
   darkMode = false;
-  
+  isAdmin = false
   books: MyBook[] = [];
   loading = true;
   constructor(private http: HttpClient,private cdr: ChangeDetectorRef, private router: Router) {}
   ngOnInit(): void {
-  this.loadBooks();
+    const user = JSON.parse(localStorage.getItem('user') || 'null')
+    this.isAdmin = user?.role === 'admin'
+    this.loadBooks();
 }
 browseBooks() {
   this.router.navigate(['/book']);

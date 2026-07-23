@@ -12,7 +12,7 @@ export class ProfileComponent implements OnInit {
   user: any = null;
   stats = { borrowed: 0, active: 0, returned: 0, overdue: 0 };
   recentActivity: any[] = [];
-
+  isAdmin = false
   editMode: boolean = false;
   darkMode: boolean = false;
   emailNotifications: boolean = true;
@@ -28,6 +28,8 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || 'null')
+    this.isAdmin = user?.role === 'admin'
     this.fetchProfileData();
   }
 
