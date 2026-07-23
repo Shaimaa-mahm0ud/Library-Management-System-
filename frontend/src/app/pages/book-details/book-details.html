@@ -1,0 +1,177 @@
+<!-- ═══════════════════════════════════════════
+     LOADING STATE
+═══════════════════════════════════════════ -->
+<div *ngIf="loading" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p class="loading-text">Loading book...</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ERROR STATE
+═══════════════════════════════════════════ -->
+<div *ngIf="!loading && errorMessage" class="error-container animate-fade-in-up">
+  <div class="error-icon">📭</div>
+  <h2 class="error-title">{{ errorMessage }}</h2>
+  <p class="error-sub">The book you're looking for doesn't exist or couldn't be loaded.</p>
+  <a routerLink="/book" class="btn btn-primary">Back to Books</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     BOOK DETAILS
+═══════════════════════════════════════════ -->
+<div *ngIf="!loading && book" class="details-page page-in">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a routerLink="/book" class="breadcrumb-link">📚 Books</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">{{ book.title }}</span>
+  </nav>
+
+  <!-- Borrow feedback -->
+  <div *ngIf="borrowMessage" class="alert-success animate-fade-in-up">
+    {{ borrowMessage }}
+  </div>
+
+  <!-- ═══ MAIN TWO-COLUMN LAYOUT ═══ -->
+  <div class="details-grid">
+
+    <!-- LEFT: Book Cover -->
+    <div class="cover-column">
+      <div class="cover-card">
+        <div class="cover-image"
+             [style.backgroundImage]="book.image ? 'url(' + book.image + ')' : 'none'">
+          <div *ngIf="!book.image" class="cover-placeholder-lg">
+            <span>📖</span>
+          </div>
+          <span class="badge-featured" *ngIf="book.featured">⭐ Featured</span>
+          <span class="badge-unavailable-lg" *ngIf="book.availableCopies <= 0">Unavailable</span>
+        </div>
+
+        <div class="cover-actions">
+          <button class="btn btn-primary btn-block btn-lg"
+                  (click)="borrowBook()"
+                  [disabled]="book.availableCopies <= 0">
+            {{ book.availableCopies > 0 ? '📖 Borrow This Book' : 'Not Available' }}
+          </button>
+          <button class="btn btn-outline btn-block btn-lg favorite-btn" (click)="toggleFavorite()">
+            {{ isFavorite ? '♥ Favorited' : '♡ Add to Favorites' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Book Info -->
+    <div class="info-column">
+
+      <!-- Category badge -->
+      <span class="category-badge">{{ book.category }}</span>
+
+      <!-- Title -->
+      <h1 class="book-title-lg">{{ book.title }}</h1>
+
+      <!-- Author -->
+      <p class="book-author-lg">
+        by <span class="author-name">{{ book.author }}</span>
+      </p>
+
+      <!-- Rating -->
+      <div class="rating-row">
+        <div class="stars">
+          <span *ngFor="let filled of getStarArray(book.rating)"
+                class="star"
+                [class.star-filled]="filled"
+                [class.star-empty]="!filled">
+            ★
+          </span>
+        </div>
+        <span class="rating-number">{{ book.rating }} / 5</span>
+      </div>
+
+      <!-- Description -->
+      <div class="description-block">
+        <h3 class="section-label">Description</h3>
+        <p class="description-text">{{ book.description || 'No description available for this book.' }}</p>
+      </div>
+
+      <!-- Availability -->
+      <div class="availability-block">
+        <div class="availability-badge"
+             [class.avail-ok]="book.availableCopies > 0"
+             [class.avail-none]="book.availableCopies <= 0">
+          {{ book.availableCopies > 0 ? '✅ Available' : '❌ Unavailable' }}
+        </div>
+        <span class="availability-copies">
+          {{ book.availableCopies }} of {{ book.totalCopies }} copies available
+        </span>
+      </div>
+
+      <!-- Availability bar -->
+      <div class="avail-bar-track">
+        <div class="avail-bar-fill" [style.width.%]="getAvailabilityPercent()"></div>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="info-grid">
+        <div class="info-cell">
+          <span class="info-label">Category</span>
+          <span class="info-value">{{ book.category }}</span>
+        </div>
+        <div class="info-cell">
+          <span class="info-label">Rating</span>
+          <span class="info-value">⭐ {{ book.rating }}</span>
+        </div>
+        <div class="info-cell">
+          <span class="info-label">Total Copies</span>
+          <span class="info-value">{{ book.totalCopies }}</span>
+        </div>
+        <div class="info-cell">
+          <span class="info-label">Available</span>
+          <span class="info-value" [class.text-danger]="book.availableCopies <= 2">{{ book.availableCopies }}</span>
+        </div>
+        <div class="info-cell">
+          <span class="info-label">Price</span>
+          <span class="info-value">${{ book.price }}</span>
+        </div>
+        <div class="info-cell">
+          <span class="info-label">ISBN</span>
+          <span class="info-value">{{ book._id }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ RELATED BOOKS ═══ -->
+  <section *ngIf="relatedBooks.length > 0" class="related-section">
+    <h2 class="related-title">More in <span class="related-category">{{ book.category }}</span></h2>
+    <div class="related-grid">
+      <div *ngFor="let rb of relatedBooks"
+           class="book-card card-hover animate-fade-in-up"
+           (click)="navigateToBook(rb._id)"
+           style="cursor: pointer;">
+        <div class="book-cover-img"
+             [style.backgroundImage]="rb.image ? 'url(' + rb.image + ')' : 'none'">
+          <div *ngIf="!rb.image" class="cover-placeholder">
+            <span>📖</span>
+          </div>
+          <span class="badge-featured" *ngIf="rb.featured">⭐ Featured</span>
+          <span class="badge-unavailable" *ngIf="rb.availableCopies <= 0">Unavailable</span>
+        </div>
+        <div class="book-info">
+          <span class="book-category">{{ rb.category }}</span>
+          <h3 class="book-title">{{ rb.title }}</h3>
+          <p class="book-author">by {{ rb.author }}</p>
+          <div class="book-meta">
+            <span class="book-rating">⭐ {{ rb.rating || 0 }}</span>
+            <span class="book-copies" [class.low]="rb.availableCopies <= 2">
+              {{ rb.availableCopies }}/{{ rb.totalCopies }} copies
+            </span>
+            <span class="book-price">${{ rb.price }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

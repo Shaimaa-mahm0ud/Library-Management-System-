@@ -14,13 +14,8 @@
     <div class="hero-search">
       <div class="search-input-wrap">
         <span class="search-icon">🔍</span>
-        <input
-          type="text"
-          [(ngModel)]="searchKeyword"
-          (keyup.enter)="search()"
-          placeholder="Search by title, author..."
-          class="search-input"
-        />
+        <input type="text" [(ngModel)]="searchKeyword" (keyup.enter)="search()" placeholder="Search by title, author..."
+          class="search-input" />
       </div>
       <button class="btn btn-outline-white" (click)="search()">Browse All</button>
     </div>
@@ -81,7 +76,8 @@
     <span class="filter-label">CATEGORY</span>
     <div class="category-pills">
       <button class="pill" [class.active]="selectedCategory === ''" (click)="filterByCategory('')">All</button>
-      <button class="pill" *ngFor="let cat of categories" [class.active]="selectedCategory === cat" (click)="filterByCategory(cat)">{{ cat }}</button>
+      <button class="pill" *ngFor="let cat of categories" [class.active]="selectedCategory === cat"
+        (click)="filterByCategory(cat)">{{ cat }}</button>
     </div>
   </div>
   <div class="filter-right">
@@ -116,7 +112,8 @@
 ═══════════════════════════════════════════ -->
 <section class="books-section">
   <div class="books-grid">
-    <div *ngFor="let book of filteredBooks" class="book-card card-hover animate-fade-in-up">
+    <div *ngFor="let book of filteredBooks" class="book-card card-hover animate-fade-in-up"
+      [routerLink]="['/book', book._id]" style="cursor: pointer;">
       <!-- Cover image -->
       <div class="book-cover-img" [style.backgroundImage]="book.image ? 'url(' + book.image + ')' : 'none'">
         <div *ngIf="!book.image" class="cover-placeholder">
@@ -141,14 +138,14 @@
           <span class="book-price">${{ book.price }}</span>
         </div>
 
-        <button
-          class="btn btn-primary btn-block borrow-btn"
-          (click)="borrow(book._id)"
+        <button class="btn btn-primary btn-block borrow-btn" (click)="borrow(book._id);$event.stopPropagation();"
           [disabled]="book.availableCopies <= 0">
           {{ book.availableCopies > 0 ? '📖 Borrow' : 'Not Available' }}
         </button>
       </div>
     </div>
+  </div>
+
   </div>
 
   <!-- Empty state -->

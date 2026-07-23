@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { Dashboard } from './pages/admin/dashboard/dashboard';
 import { BookComponent } from './pages/book/book';
+import { BookDetailsComponent } from './pages/book-details/book-details';
 
 import { authGuard } from './guards/auth-guard';
 import { adminGuard } from './guards/admin-guard';
@@ -21,10 +22,15 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   {
-  path: 'book',
-  component: BookComponent,
-  canActivate: [authGuard]
-},
+    path: 'book/:id',
+    component: BookDetailsComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'book',
+    component: BookComponent,
+    canActivate: [authGuard]
+  },
   {
     path: 'my-books',
     component: MyBooks,

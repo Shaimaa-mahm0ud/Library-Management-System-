@@ -16,6 +16,7 @@ import { Dashboard } from './pages/admin/dashboard/dashboard';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { BookComponent } from './pages/book/book';
+import { BookDetailsComponent } from './pages/book-details/book-details';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     Dashboard,
     RegisterComponent,
     LoginComponent,
-    BookComponent
+    BookComponent,
+    BookDetailsComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [provideBrowserGlobalErrorListeners(),
