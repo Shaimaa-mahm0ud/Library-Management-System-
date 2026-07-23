@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { BookComponent } from './pages/book/book';
 import { BookDetailsComponent } from './pages/book-details/book-details';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AdminNavbar } from './layout/admin-navbar/admin-navbar';
 
 @NgModule({
   declarations: [
@@ -35,16 +36,18 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RegisterComponent,
     LoginComponent,
     BookComponent,
-    BookDetailsComponent
+    BookDetailsComponent,
+    AdminNavbar,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
-  providers: [provideBrowserGlobalErrorListeners(),
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true
-  }
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [App],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,4 +1,4 @@
-<header class="navbar" *ngIf="showNavbar">
+<header class="navbar" *ngIf="showNavbar&&!isAdmin()">
 
   <!-- Logo -->
   <div class="logo" routerLink="/book">

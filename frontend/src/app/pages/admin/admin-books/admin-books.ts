@@ -12,19 +12,26 @@ import { Router } from '@angular/router';
 export class AdminBooks implements OnInit{
   constructor( private bookservice:Bookservice, private router:Router, private cd:ChangeDetectorRef){}
   mybooks:IBook[]=[]
+  currentPage = 1
+  totalPages = 1
   ngOnInit(): void {
     this.loadBooks()
   }
   loadBooks(){
-    this.bookservice.getAllBooks().subscribe({
+    this.bookservice.getAllBooks(this.currentPage).subscribe({
       next: (res)=>{
         this.mybooks = res.books
+        this.totalPages = res.totalPages
         this.cd.detectChanges()
       },
       error: (err)=>{
         console.log(err)
       }
     })
+  }
+  changePage(page: number){
+    this.currentPage = page
+    this.loadBooks()
   }
   delete(id:string){
     const ok = confirm("Are you sure you want to delete this book")

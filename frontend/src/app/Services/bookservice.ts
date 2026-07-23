@@ -5,6 +5,10 @@ import { IBook } from '../models/ibook';
 
 export interface BooksResponse {
   books: IBook[];
+  page: number
+  limit: number
+  totalBooks: number
+  totalPages: number
 }
 
 @Injectable({
@@ -16,8 +20,8 @@ export class Bookservice {
 
   constructor(private http: HttpClient) {}
 
-  getAllBooks(): Observable<BooksResponse> {
-    return this.http.get<BooksResponse>(this.apiUrl);
+  getAllBooks(page: number=1): Observable<BooksResponse> {
+    return this.http.get<BooksResponse>(`${this.apiUrl}?page=${page}&limit=6`);
   }
 
   getBookById(id: string): Observable<IBook> {

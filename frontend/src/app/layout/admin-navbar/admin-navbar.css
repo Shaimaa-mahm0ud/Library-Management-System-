@@ -1,0 +1,33 @@
+.navbar {
+    background: #fff !important;
+    padding: 14px 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #2563eb !important;
+}
+
+.nav-link {
+    color: #374151 !important;
+    font-weight: 500;
+    margin: 0 8px;
+    transition: .3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #2563eb !important;
+}
+
+.btn-outline-primary {
+    border-width: 2px;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}

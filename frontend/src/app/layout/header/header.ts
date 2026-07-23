@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -18,11 +19,11 @@ export class Header implements OnInit {
   userName: string = 'User';
   userRole: string = 'user';
 
-  private loginPath = '/login'; 
+  private loginPath = '/login';
   private registerPath = '/register';
   private profilePath = '/profile';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.checkRoute(this.router.url);
@@ -93,4 +94,10 @@ export class Header implements OnInit {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.router.navigate([this.loginPath]);
-  }}
+  }
+
+  isAdmin(): boolean{
+    const user = this.authService.getUser()
+    return user.role==='admin'
+  }
+}

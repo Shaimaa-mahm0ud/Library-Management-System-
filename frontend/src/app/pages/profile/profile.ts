@@ -12,19 +12,19 @@ export class ProfileComponent implements OnInit {
   user: any = null;
   stats = { borrowed: 0, active: 0, returned: 0, overdue: 0 };
   recentActivity: any[] = [];
-  
+
   editMode: boolean = false;
   darkMode: boolean = false;
   emailNotifications: boolean = true;
   pushNotifications: boolean = false;
-  
+
   nameInput: string = '';
   emailInput: string = '';
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
-    private cdr: ChangeDetectorRef 
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   }
 
   fetchProfileData(): void {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
 
     if (!token) {
       console.warn('No token found, redirecting to login...');
@@ -49,13 +49,13 @@ export class ProfileComponent implements OnInit {
         console.log('Data received from DB:', res);
 
         // ربط مباشر للـ user والـ stats
-        this.user = res.user ? res.user : res; 
+        this.user = res.user ? res.user : res;
         this.stats = res.stats ? res.stats : this.stats;
         this.recentActivity = res.recentActivity || [];
-        
+
         this.nameInput = this.user?.name || '';
         this.emailInput = this.user?.email || '';
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching profile from DB:', err);
@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
         this.nameInput = this.user?.name || '';
         this.emailInput = this.user?.email || '';
         this.editMode = false;
-        
+
         this.cdr.detectChanges();
         alert('Profile updated in Database successfully!');
       },
@@ -122,6 +122,7 @@ export class ProfileComponent implements OnInit {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('user')
     this.router.navigate(['/login']);
   }
 }
